@@ -6,6 +6,7 @@ import { AppStackScreenProps } from "../navigators"
 import { $styles, type ThemedStyle } from "@/theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 import { useAppTheme } from "@/utils/useAppTheme"
+import ProtoBufferModule from "modules/proto-buffer"
 
 const welcomeLogo = require("../../assets/images/logo.png")
 const welcomeFace = require("../../assets/images/welcome-face.png")
@@ -38,6 +39,7 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = () => {
 
       <View style={themed([$bottomContainer, $bottomContainerInsets])}>
         <Text tx="welcomeScreen:postscript" size="md" />
+        <Text>{ProtoBufferModule.hello()}</Text>
       </View>
     </Screen>
   )

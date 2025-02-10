@@ -1,0 +1,16 @@
+{
+  "platforms": [
+    "apple",
+    "android"
+  ],
+  "apple": {
+    "modules": [
+      "ProtoBufferModule"
+    ]
+  },
+  "android": {
+    "modules": [
+      "expo.modules.protobuffer.ProtoBufferModule"
+    ]
+  }
+}
