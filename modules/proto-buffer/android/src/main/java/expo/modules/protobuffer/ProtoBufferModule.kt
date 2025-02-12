@@ -1,8 +1,36 @@
 package expo.modules.protobuffer
 
+import expo.modules.kotlin.Promise
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
-import java.net.URL
+import expo.modules.kotlin.records.Field
+import expo.modules.kotlin.records.Record
+
+
+class DataRecord : Record {
+  @Field
+  lateinit var value: String
+
+  @Field
+  var timestamp: Double = 0.0
+}
+
+
+class EncodeDataRecord : Record {
+  @Field
+  lateinit var sensor: String
+
+  @Field
+  lateinit var config: String
+
+  @Field
+  var freq: Int = 0
+
+  @Field
+  lateinit var data: List<DataRecord>
+}
+
+
 
 class ProtoBufferModule : Module() {
   // Each module class must implement the definition function. The definition consists of components
@@ -13,6 +41,7 @@ class ProtoBufferModule : Module() {
     // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
     // The module will be accessible from `requireNativeModule('ProtoBuffer')` in JavaScript.
     Name("ProtoBuffer")
+
 
     // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
     Constants(
@@ -31,9 +60,34 @@ class ProtoBufferModule : Module() {
     // is by default dispatched on the different thread than the JavaScript runtime runs on.
     AsyncFunction("setValueAsync") { value: String ->
       // Send an event to JavaScript.
-      sendEvent("onChange", mapOf(
-        "value" to value
-      ))
+      sendEvent(
+        "onChange", mapOf(
+          "value" to value
+        )
+      )
+    }
+
+    Function("encode") { params: EncodeDataRecord ->
+
+
+      // Convert JS data array to Protocol Buffer data objects
+      val dataArray = params.data.map { record ->
+        DataPoint.newBuilder()
+          .setValue(record.value)
+          .setTimestamp(record.timestamp.toLong())
+          .build()
+      }
+
+      val dataFormatBuilder = Data.newBuilder()
+        .setSensor(params.sensor)
+        .setConfig(params.config)
+        .setFreq(params.freq)
+        .addAllData(dataArray)
+
+      val data = dataFormatBuilder.build().toByteArray()
+
+      return@Function data
+
     }
   }
 }

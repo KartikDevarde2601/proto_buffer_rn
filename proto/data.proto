@@ -3,15 +3,15 @@ syntax = "proto3";
 option java_package = "expo.modules.protobuffer";
 option java_multiple_files = true;
 
-message data {
-    float value = 1;
-    int64 timestamp =2;
-}
-message data_format {
+message Data {
     string sensor = 1;
     string config = 2;
     int32 freq = 3;
-    repeated data data_array = 5;
-}
-
+    repeated DataPoint data = 4;
+  }
+  
+  message DataPoint {
+    string value = 1;
+    int64 timestamp = 2;
+  }
 

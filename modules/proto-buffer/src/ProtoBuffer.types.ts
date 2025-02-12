@@ -1,19 +1,31 @@
-import type { StyleProp, ViewStyle } from 'react-native';
+import type { StyleProp, ViewStyle } from "react-native"
 
 export type OnLoadEventPayload = {
-  url: string;
-};
+  url: string
+}
 
 export type ProtoBufferModuleEvents = {
-  onChange: (params: ChangeEventPayload) => void;
-};
+  onChange: (params: ChangeEventPayload) => void
+}
 
 export type ChangeEventPayload = {
-  value: string;
-};
+  value: string
+}
 
 export type ProtoBufferViewProps = {
-  url: string;
-  onLoad: (event: { nativeEvent: OnLoadEventPayload }) => void;
-  style?: StyleProp<ViewStyle>;
-};
+  url: string
+  onLoad: (event: { nativeEvent: OnLoadEventPayload }) => void
+  style?: StyleProp<ViewStyle>
+}
+
+export type Data = {
+  value: string
+  timestamp: number
+}
+
+export type EncodeData = {
+  sensor: string
+  config: string
+  freq: number
+  data: Data[]
+}
